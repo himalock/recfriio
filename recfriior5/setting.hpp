@@ -46,6 +46,8 @@ const uint16_t TARGET_ID_VENDOR_HDU   = 0x3765; // HDUのidVendor
 const uint16_t TARGET_ID_PRODUCT_HDU  = 0x6001; // HDUのidProduct
 const uint16_t TARGET_ID_PRODUCT_HDP  = 0x7010; // HDPのidProduct
 const uint16_t TARGET_ID_PRODUCT_HDP2 = 0x6111; // HDP2のidProduct
+const uint16_t TARGET_ID_PRODUCT_HDU2 = 0x6091; // HDU2のidProduct
+const uint16_t TARGET_ID_PRODUCT_QRS  = 0x7020; // QRS-UT100のidProduct
 const uint16_t TARGET_ID_PRODUCT_FS100U = 0x6081; // LDT-FS100UのidProduct
 #endif
 

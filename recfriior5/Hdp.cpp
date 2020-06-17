@@ -34,12 +34,12 @@
 Hdp::Hdp()
     : AbstractFriio(), saddr( 0 ), buffer( NULL )
 {
-	supportBands.push_back(BAND_CATV);
-	supportBands.push_back(BAND_UHF);
-	targetType         = TUNER_HDP;
-	asyncBufSize       = HDP_ASYNCBUFFSIZE;
-	requestReserveNum  = HDP_REQUEST_RESERVE_NUM;
-	requestPollingWait = HDP_REQUEST_POLLING_WAIT;
+    supportBands.push_back(BAND_CATV);
+    supportBands.push_back(BAND_UHF);
+    targetType         = TUNER_HDP;
+    asyncBufSize       = HDP_ASYNCBUFFSIZE;
+    requestReserveNum  = HDP_REQUEST_RESERVE_NUM;
+    requestPollingWait = HDP_REQUEST_POLLING_WAIT;
 }
 
 
@@ -130,15 +130,15 @@ Hdp::setChannel(BandType newBand, int newChannel)
             throw traceable_error("unknown channel."); // TODO: 適当なエラークラス
         } else {
             // CATV band
-	    if (newChannel <= 22) {
+        if (newChannel <= 22) {
                 freq = 111 + (newChannel - 13) * 6;
-	    } else if (newChannel == 23) {
-		freq = 225;
-	    } else if (newChannel <= 27) {
-		freq = 233 + (newChannel - 24) * 6;
+        } else if (newChannel == 23) {
+        freq = 225;
+        } else if (newChannel <= 27) {
+        freq = 233 + (newChannel - 24) * 6;
             } else {
-		freq = 225 + (newChannel - 23) * 6;
-	    }
+        freq = 225 + (newChannel - 23) * 6;
+        }
         }
     } else {
         // UHF band
@@ -215,9 +215,9 @@ Hdp::getSignalLevel(void)
     if (isinf(p))
         p = 0.0f;
     if (log) {
-	double p2 = 10.0 * log10(5505024.0 / (double)val);
-	double cnr = 0.000024 * p2 * p2 * p2 * p2 - 0.0016 * p2 * p2 * p2 + 0.0398 * p2 * p2 + 0.5491 * p2 + 3.0965;
-	*log << "CNR: " << cnr << std::endl;
+    double p2 = 10.0 * log10(5505024.0 / (double)val);
+    double cnr = 0.000024 * p2 * p2 * p2 * p2 - 0.0016 * p2 * p2 * p2 + 0.0398 * p2 * p2 + 0.5491 * p2 + 3.0965;
+    *log << "CNR: " << cnr << std::endl;
     }
 
     return p;
@@ -279,11 +279,11 @@ Hdp::getStream(const uint8_t** bufp, int timeoutMsec)
             break;
         }
 
-	// decrpyt
+    // decrpyt
         uint8_t *buf = buffer + pos;
-	uint8_t tmp[188];
-	memcpy(tmp, buf, 188);
-	packetDecrypt(tmp, buf, 1);
+    uint8_t tmp[188];
+    memcpy(tmp, buf, 188);
+    packetDecrypt(tmp, buf, 1);
 
         pos += tssize;
     }
@@ -302,33 +302,41 @@ Hdp::getStream(const uint8_t** bufp, int timeoutMsec)
 bool
 Hdp::is_friio(const std::string &devfile)
 {
-	usb_device_descriptor usb_desc;
-	try {
-		usb_getdesc(devfile.c_str(), &usb_desc);
-	} catch (usb_error &e) {
-		if (log) *log << "usb_getdesc: " << e.what() << std::endl;
-		return false;
-	}
-	
-	if ( TARGET_ID_VENDOR_HDU == usb_desc.idVendor && TARGET_ID_PRODUCT_HDU == usb_desc.idProduct) {
-		if (log) *log << "HDP Type: HDU" << std::endl;
-        	tunerCount = 1;
-		return true;
-	} else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_FS100U == usb_desc.idProduct) {
-		if (log) *log << "HDP Type: LDT-FS100U" << std::endl;
-        	tunerCount = 1;
-		return true;
-	} else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_HDP == usb_desc.idProduct) {
-		if (log) *log << "HDP Type: HDP" << std::endl;
-        	tunerCount = 1;
-		return true;
-	} else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_HDP2 == usb_desc.idProduct) {
-		if (log) *log << "HDP Type: HDP2" << std::endl;
-        	tunerCount = 2;
-		return true;
-	} else {
-		return false;
-	}
+    usb_device_descriptor usb_desc;
+    try {
+        usb_getdesc(devfile.c_str(), &usb_desc);
+    } catch (usb_error &e) {
+        if (log) *log << "usb_getdesc: " << e.what() << std::endl;
+        return false;
+    }
+
+    if ( TARGET_ID_VENDOR_HDU == usb_desc.idVendor && TARGET_ID_PRODUCT_HDU == usb_desc.idProduct) {
+        if (log) *log << "HDP Type: HDU" << std::endl;
+            tunerCount = 1;
+        return true;
+    } else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_FS100U == usb_desc.idProduct) {
+        if (log) *log << "HDP Type: LDT-FS100U" << std::endl;
+            tunerCount = 1;
+        return true;
+    } else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_HDP == usb_desc.idProduct) {
+        if (log) *log << "HDP Type: HDP" << std::endl;
+            tunerCount = 1;
+        return true;
+    } else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_HDP2 == usb_desc.idProduct) {
+        if (log) *log << "HDP Type: HDP2" << std::endl;
+            tunerCount = 2;
+        return true;
+    } else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_HDU2 == usb_desc.idProduct) {
+        if (log) *log << "HDU Type: HDU2" << std::endl;
+            tunerCount = 2;
+            return true;
+    } else if ( TARGET_ID_VENDOR_HDUS == usb_desc.idVendor && TARGET_ID_PRODUCT_QRS == usb_desc.idProduct) {
+        if (log) *log << "QRS Type: UT100" << std::endl;
+            tunerCount = 1;
+            return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -525,7 +533,7 @@ Hdp::send_ctl(uint8_t *data, int fd, uint8_t req, uint16_t val, uint16_t idx, ui
     usbdevfs_ctrltransfer ctrl = {
         USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE, req, val, idx, len, REQUEST_TIMEOUT, data
     };
-	
+
     usb_ctrl(fd, &ctrl);
 }
 
