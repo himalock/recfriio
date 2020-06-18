@@ -145,7 +145,7 @@ struct Args {
 	bool splitter;
 	char *sid_list;
 #endif /* defined(TSSL) */
-	bool stdout;
+	bool output;
 	TunerType type;
 	BandType band;
 	int channel;
@@ -421,7 +421,7 @@ parseOption(int argc, char *argv[])
 	args.recsec    = atoi(recsecstr);
 	args.destfile = argv[optind++];
 	if (strcmp("-", args.destfile) == 0) {
-		args.stdout = true;
+		args.output = true;
 	}
 	
 	return args;
@@ -491,12 +491,12 @@ main(int argc, char *argv[])
 	time_t time_start = time(NULL);
 	
 	// ログ出力先設定
-	std::ostream& log = args.stdout ? std::cerr : std::cout;
+	std::ostream& log = args.output ? std::cerr : std::cout;
 
 #ifdef HTTP
 	if( !args.http_mode ){
 		// 出力先ファイルオープン
-		if(!args.stdout) {
+		if(!args.output) {
 			dest = open(args.destfile, (O_RDWR | O_CREAT | O_TRUNC), 0666);
 			if (0 > dest) {
 				std::cerr << "can't open file '" << args.destfile << "' to write." << std::endl;
@@ -715,7 +715,7 @@ main(int argc, char *argv[])
 #ifndef HTTP
 	// 出力先ファイルオープン
 	FILE *dest = stdout;
-	if (!args.stdout) {
+	if (!args.output) {
 		dest = fopen(args.destfile, "w");
 		if (NULL == dest) {
 			std::cerr << "can't open file '" << args.destfile << "' to write." << std::endl;
@@ -984,12 +984,12 @@ main(int argc, char *argv[])
 	
 	// 出力先ファイルクローズ
 #ifdef HTTP
-	if (!args.stdout) {
+	if (!args.output) {
 		close(dest);
 	}
 #else
 	fflush(dest);
-	if (!args.stdout) {
+	if (!args.output) {
 		fclose(dest);
 	}
 #endif /* defined(HTTP) */
