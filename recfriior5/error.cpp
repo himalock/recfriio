@@ -13,7 +13,10 @@
  */
 std::string stringError(int e)
 {
+/*
 	char buf[1024];
 	memset(buf, '\0', sizeof(buf));
 	return std::string(strerror_r(e, buf, sizeof(buf)));
+*/
+	return std::string(strerror(e));
 }

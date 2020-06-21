@@ -21,60 +21,51 @@
  * usb_device_descriptorを取得する。
  * @param devfile デバイスファイル
  * @param desc usb_device_descriptorへのポインタ(出力)
- * @exception usb_error 失敗時
  */
-void usb_getdesc(const char *devfile, usb_device_descriptor* desc) throw (usb_error);
+void usb_getdesc(const char *devfile, usb_device_descriptor* desc);
 
 /**
  * デバイスを開く。
  * @param devfile デバイスファイル
  * @return ファイルディスクリプタ
- * @exception usb_error 失敗時
  */
-int usb_open(const char *devfile) throw (usb_error);
+int usb_open(const char *devfile);
 
 /**
  * 使用中か確認する。
  * @param fd 対象ファイルディスクリプタ
  * @param interface 対象インターフェース
  * @return 使用しているドライバ名 未使用時""
- * @exception usb_error USBのエラー時
  */
-std::string usb_getdriver(int fd, int interface) throw (usb_error);
+std::string usb_getdriver(int fd, int interface);
 
 /**
  * setinterfaceする。
  * @param fd 対象ファイルディスクリプタ
  * @param interface 対象インターフェース
- * @exception usb_error USBのエラー時
  */
-void usb_setinterface(int fd, int interface, int altsetting) throw (usb_error);
-
+void usb_setinterface(int fd, int interface, int altsetting);
 
 /**
  * claimする。
  * @param fd 対象ファイルディスクリプタ
  * @param interface 対象インターフェース
- * @exception usb_error USBのエラー時
- * @exception busy_error 使用中
  */
-void usb_claim(int fd, unsigned int interface) throw (busy_error, usb_error);
+void usb_claim(int fd, unsigned int interface);
 
 /**
  * releaseする。
  * @param fd 対象ファイルディスクリプタ
  * @param interface 対象インターフェース
- * @exception usb_error USBのエラー時
  */
-void usb_release(int fd, unsigned int interface) throw (usb_error);
+void usb_release(int fd, unsigned int interface);
 
 /**
  * コントロールリクエストを送信する。
  * @param fd 対象ファイルディスクリプタ
  * @param ctrl コントロールリクエスト
- * @exception usb_error USBのエラー時
  */
-int usb_ctrl(int fd, usbdevfs_ctrltransfer *ctrl) throw (usb_error);
+int usb_ctrl(int fd, usbdevfs_ctrltransfer *ctrl);
 
 /**
  * URBを送信する。
@@ -108,8 +99,7 @@ int usb_discardurb(int fd, usbdevfs_urb* urbp);
  * @param length  送信データの配列数
  * @param rcvbuf  受信する場合のバッファ
  * @param rcv_len 受信バッファのサイズ
- * @exception usb_error USBのエラー時
  */
-int usb_ctrl_sends(int fd, uint16_t data[], size_t length,  uint8_t *rcvbuf, size_t recv_len) throw (usb_error);
+int usb_ctrl_sends(int fd, uint16_t data[], size_t length,  uint8_t *rcvbuf, size_t recv_len);
 
 #endif /* !defined(_USB_OPS_HPP_) */

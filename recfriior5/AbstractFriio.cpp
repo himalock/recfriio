@@ -4,6 +4,7 @@
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <fcntl.h>
 
 #include <sstream>
 
@@ -126,10 +127,9 @@ AbstractFriio::isStreamReady()
 
 /**
  * 初期化されていない場合exceptionを投げる。
- * @exception not_ready_error 初期化されていない
  */
 void
-AbstractFriio::assertInitialized() throw (not_ready_error)
+AbstractFriio::assertInitialized()
 {
 	if (!initialized) {
 		throw not_ready_error("not initialized.");
@@ -216,7 +216,7 @@ AbstractFriio::searchFriios()
  * @return int ファイルディスクリプタ
  */
 int
-detectLock(std::string& lockFile) throw (io_error)
+detectLock(std::string& lockFile)
 {
 	// umaskを変更し、group,otherに書き込み権限を付加する。
 	mode_t orgmask = umask(0);
