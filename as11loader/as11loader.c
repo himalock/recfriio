@@ -50,10 +50,11 @@ main(int argc, char *argv[])
     int sys;
 
     //実行ディレクトリとfirmware両方を確認する
-    if ((sys = open("SKNET_AS11Loader.sys", O_RDONLY)) == -1 &&
-        (sys = open("/lib/firmware/SKNET_AS11Loader.sys", O_RDONLY)) == -1){
-            fprintf( stderr, "could not open SKNET_AS11Loader.sys\n");
-            goto ERROR;
+    if ((sys = open("SKNET_AS11Loader.sys", O_RDONLY)) == -1){
+            if ((sys = open("/lib/firmware/SKNET_AS11Loader.sys", O_RDONLY)) == -1){
+                fprintf( stderr, "could not open SKNET_AS11Loader.sys\n");
+                goto ERROR;
+            }
         }
 
         syssize = 0x4000 + 0xa90;
